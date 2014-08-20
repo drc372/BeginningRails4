@@ -1,5 +1,6 @@
 class Article < ActiveRecord::Base
-	validates_presence_of :title, :body
+	validates :title, :presence => true
+	validates :body, :presence => true
 
 	belongs_to :user
 	has_and_belongs_to_many :categories
@@ -16,5 +17,10 @@ class Article < ActiveRecord::Base
 
 	def published?
     published_at.present?
+	end
+
+	def owned_by?(owner)
+	  return false unless owner.is_a?(User)
+	  user == owner
 	end
 end
