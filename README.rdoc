@@ -5,3 +5,4 @@ This is just a sample application I'm using to learn Rails.  Went through the Be
 Currently at page 194 - Chapter : Not all users comment
 
 This application will be used to test additional Ruby packages.
+

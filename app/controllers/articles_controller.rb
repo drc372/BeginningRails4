@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authenticate, except: [:index, :show]
-  before_action :set_article, only: [:show]
+  before_action :set_article, only: [:show, :notify_friend]
 
   # GET /articles
   # GET /articles.json
@@ -65,9 +65,16 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def notify_friend
+    print params.inspect
+    Notifier.email_friend(@article, params[:name], params[:email]).deliver
+    redirect_to @article, :notice => "Successfully sent a message to your friend"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
+      puts "Print Params #{params.inspect}"
       @article = Article.find(params[:id])
     end
 
