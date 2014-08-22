@@ -2,7 +2,7 @@
 
 This is just a sample application I'm using to learn Rails.  Went through the Beginning Rails 4 Blog Tutorial and have added extra modules to see how Admin/Testing/Performance can be done using rails.  
 
-Currently at page 203 - Chapter 10: Sending Email
+Currently at page 219 - Chapter 11: Testing - Just Read.  Will actually follow RSpec for testing
 
 This application will be used to test additional Ruby packages.
 
