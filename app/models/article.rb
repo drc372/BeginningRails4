@@ -1,10 +1,12 @@
 class Article < ActiveRecord::Base
 	validates :title, :presence => true
 	validates :body, :presence => true
+	validates :user_id, :presence => true
 
 	belongs_to :user
 	has_and_belongs_to_many :categories
-	has_many :comments
+	has_many :comments,
+					 :dependent => :destroy
 
 	scope :published, lambda { where("articles.published_at IS NOT NULL") }
 	scope :draft, lambda { where("articles.published_at IS NULL") }
