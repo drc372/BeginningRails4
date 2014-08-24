@@ -1,7 +1,7 @@
 == README
 
-This is just a sample application I'm using to learn Rails.  Went through the Beginning Rails 4 Blog Tutorial and have added extra modules to see how Admin/Testing/Performance can be done using rails.  
+This is just a sample application I'm using to learn Rails.  Completed the Beginning Rails 4 Blog Tutorial.  
 
-Currently going through Everday Rails RSpec to learn about RSpec.
+Currently going through Everday Rails RSpec to learn about RSpec.  Adding tests for the blog application made during the previous tutorial.
 
-Currently on Chapter 4 - page 40
+Currently on Chapter 5 - page 60
