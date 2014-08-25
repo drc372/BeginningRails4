@@ -4,4 +4,4 @@ This is just a sample application I'm using to learn Rails.  Completed the Begin
 
 Currently going through Everday Rails RSpec to learn about RSpec.  Adding tests for the blog application made during the previous tutorial.
 
-Currently on Chapter 5 - page 60
+Currently on Chapter 5: Testing patch requests - page 62

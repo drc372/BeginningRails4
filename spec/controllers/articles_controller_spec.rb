@@ -37,7 +37,7 @@ describe ArticlesController do
     	@user = FactoryGirl.create(:user)
 			session[:user_id] = @user.id
 		end
-		
+
 		it "assigns a new Article to @article" do
 			get :new
 			expect(assigns(:article)).to be_a_new(Article)
@@ -69,20 +69,56 @@ describe ArticlesController do
 	end
 		
 	describe "POST #create" do
+		before :each do
+    	@user = FactoryGirl.create(:user)
+			session[:user_id] = @user.id
+		end
+
 		context "with valid attributes" do
-		      it "saves the new article in the database"
-					it "redirects to article#show" 
+      it "saves the new article in the database" do
+      	article_attrs = FactoryGirl.attributes_for(:article)
+      	expect{post :create, article: article_attrs}.to change(Article, :count).by(1)
+      end
+
+			it "redirects to article#show" do
+				article_attrs = FactoryGirl.attributes_for(:article)
+      	post :create, article: article_attrs
+      	expect(response).to redirect_to article_path(assigns[:article])
+			end
 		end
 		
 		context "with invalid attributes" do
-			it "does not save the new article in the database" 
-			it "re-renders the :new template"
+			it "does not save the new article in the database" do
+				article_attrs = FactoryGirl.attributes_for(:invalid_article)
+		    expect{post :create, article: article_attrs}.to change(Article, :count).by(0)
+			end
+
+			it "re-renders the :new template" do
+				article_attrs = FactoryGirl.attributes_for(:invalid_article)
+				post :create, article: article_attrs
+				expect(response).to render_template :new
+			end
 		end 
 	end
 		
 	describe 'PATCH #update' do
+		before :each do
+			@user = FactoryGirl.create(:user)
+			session[:user_id] = @user.id
+
+    	@article = FactoryGirl.create(:article, user_id: @user.id, title: 'Update Test', 
+    																body: 'Update test body')
+		end
+
 		context "with valid attributes" do
-  		it "updates the article in the database"
+			it "locates the requested @article" do
+      	patch :update, id: @article, article: FactoryGirl.attributes_for(:article)
+				expect(assigns(:article)).to eq(@article) 
+			end
+
+  		it "updates the article in the database" do
+
+  		end
   		it "redirects to the article"
   	end
 		
