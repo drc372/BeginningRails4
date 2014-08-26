@@ -105,9 +105,7 @@ describe ArticlesController do
 		before :each do
 			@user = FactoryGirl.create(:user)
 			session[:user_id] = @user.id
-
-    	@article = FactoryGirl.create(:article, user_id: @user.id, title: 'Update Test', 
-    																body: 'Update test body')
+    	@article = FactoryGirl.create(:article, user_id: @user.id, title: 'Update Test', body: 'Update test body')
 		end
 
 		context "with valid attributes" do
@@ -116,20 +114,51 @@ describe ArticlesController do
 				expect(assigns(:article)).to eq(@article) 
 			end
 
-  		it "updates the article in the database" do
+  		it "changes @articles's attributes" do 
+  			patch :update, id: @article, article: FactoryGirl.attributes_for(:article, 
+  																																				title: "@article update", 
+  																																				body: "Been 'dated")
+	      @article.reload
+	      expect(@article.title).to eq("@article update")
+	      expect(@article.body).to eq("Been 'dated")
+			end
 
-  		end
-  		it "redirects to the article"
+			it "redirects to the updated article" do
+				patch :update, id: @article, article: FactoryGirl.attributes_for(:article) 
+				expect(response).to redirect_to @article
+			end
   	end
 		
 		context "with invalid attributes" do 
-			it "does not update the article" 
-			it "re-renders the #edit template"
+			it "does not update the article" do
+				patch :update, id: @article, article: FactoryGirl.attributes_for(:invalid_article, 
+  																																				body: "NO Update")
+	      @article.reload
+	      expect(@article.title).to eq("Update Test")
+	      expect(@article.body).to eq('Update test body')
+			end
+
+			it "re-renders the #edit template" do
+				patch :update, id: @article, article: FactoryGirl.attributes_for(:invalid_article)
+        expect(response).to render_template :edit
+			end
 		end 
 	end
 
 	describe 'DELETE #destroy' do
-		it "deletes the article from the database" 
-		it "redirects to article#index"
+		before :each do
+			@user = FactoryGirl.create(:user)
+			session[:user_id] = @user.id
+    	@article = FactoryGirl.create(:article, user_id: @user.id)
+		end
+
+		it "deletes the article from the database" do
+			expect{ delete :destroy, id: @article }.to change(Article,:count).by(-1)
+		end
+
+		it "redirects to article#index" do
+			delete :destroy , id: @article
+			expect(response).to redirect_to articles_url
+		end
 	end 
 end
